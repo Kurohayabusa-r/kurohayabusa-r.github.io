@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glenn Yohanes — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ── Tokens ── */
+    :root {
+      --bg:           #FAFBFC;
+      --bg-card:      #F1F5F9;
+      --text:         #0F172A;
+      --text-muted:   #64748B;
+      --accent:       #2563EB;
+      --accent-light: #DBEAFE;
+      --border:       #E2E8F0;
+      --mono:         'JetBrains Mono', monospace;
+      --sans:         'Inter', sans-serif;
+      --max-w:        760px;
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 251, 252, 0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── Layout ── */
+    main {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Section label (signature element) ── */
+    .section-label {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      margin-bottom: 36px;
+    }
+
+    /* ── Hero ── */
+    #hero {
+      padding: 96px 0 80px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-role {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .hero-name {
+      font-size: clamp(36px, 6vw, 54px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .hero-bio {
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 500px;
+      line-height: 1.8;
+      margin-bottom: 36px;
+    }
+    .hero-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .btn-primary { background: var(--accent); color: #fff; border: 1px solid var(--accent); }
+    .btn-primary:hover { background: #1D4ED8; border-color: #1D4ED8; }
+    .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+
+    /* ── About ── */
+    #about {
+      padding: 80px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: start;
+    }
+    .about-text h2 {
+      font-size: 21px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .about-text p {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-bottom: 14px;
+    }
+    .skills-col h3 {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      margin-top: 22px;
+    }
+    .skills-col h3:first-child { margin-top: 0; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      padding: 4px 10px;
+      background: var(--bg-card);
+      border-radius: 4px;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    /* ── Projects ── */
+    #projects {
+      padding: 80px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .projects-grid { display: grid; gap: 14px; }
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 26px 28px;
+      transition: box-shadow 0.15s;
+    }
+    .project-card:hover { box-shadow: 0 4px 24px rgba(37, 99, 235, 0.08); }
+    .project-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 10px;
+    }
+    .project-name { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
+    .project-badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .badge-tool     { background: #DCFCE7; color: #166534; }
+    .badge-research { background: #FEF3C7; color: #92400E; }
+    .badge-ctf      { background: #EDE9FE; color: #5B21B6; }
+    .badge-cve      { background: #FEE2E2; color: #991B1B; }
+    .project-desc {
+      color: var(--text-muted);
+      font-size: 14.5px;
+      margin-bottom: 18px;
+      line-height: 1.7;
+    }
+    .project-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .project-links { display: flex; gap: 16px; }
+    .project-link {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .project-link:hover { text-decoration: underline; }
+
+    /* ── Experience ── */
+    #experience { padding: 80px 0; }
+    .exp-item {
+      display: grid;
+      grid-template-columns: 152px 1fr;
+      gap: 28px;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .exp-item:last-child { border-bottom: none; }
+    .exp-date {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      padding-top: 3px;
+      line-height: 1.7;
+    }
+    .exp-role  { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 3px; }
+    .exp-company { font-size: 13.5px; color: var(--accent); font-weight: 500; margin-bottom: 14px; }
+    .exp-desc { list-style: none; }
+    .exp-desc li {
+      color: var(--text-muted);
+      font-size: 14.5px;
+      line-height: 1.7;
+      padding-left: 14px;
+      position: relative;
+      margin-bottom: 5px;
+    }
+    .exp-desc li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--border);
+    }
+
+    /* ── Footer ── */
+    footer {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 32px 24px;
+      border-top: 1px solid var(--border);
+    }
+    .footer-text {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 620px) {
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .exp-item   { grid-template-columns: 1fr; gap: 6px; }
+      .nav-links  { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-logo" href="#hero">// kurohayabusa-r</a>
+      <ul class="nav-links">
+        <li><a href="#about">about</a></li>
+        <li><a href="projects.html">projects</a></li>
+        <li><a href="ctf.html">ctf</a></li>
+        <li><a href="#experience">experience</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ── HERO ── -->
+    <section id="hero">
+      <p class="hero-role">// offensive security enthusiast</p>
+      <h1 class="hero-name">Glenn Yohanes</h1>
+      <p class="hero-bio">
+        I find and fix vulnerabilities before the wrong people do.
+        Focused on web application security, network pentesting, and offensive tooling.
+      </p>
+      <div class="hero-links">
+        <a href="mailto:glennyohanes17@gmail.com" class="btn btn-primary">Get in touch</a>
+        <a href="https://github.com/kurohayabusa-r" class="btn btn-ghost" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://linkedin.com/in/glenn-yohanes-b63a931b7/" class="btn btn-ghost" target="_blank" rel="noopener">LinkedIn</a>
+        <!-- Optional: add a resume PDF link -->
+        <!-- <a href="resume.pdf" class="btn btn-ghost" target="_blank" rel="noopener">Resume</a> -->
+      </div>
+    </section>
+
+    <!-- ── ABOUT ── -->
+    <section id="about">
+      <p class="section-label">// about</p>
+      <div class="about-grid">
+
+        <div class="about-text">
+          <h2>Background</h2>
+          <p>
+            Hello, my name is Glenn. I hold a Bachelor's degree in Cyber Security from BINUS University and have 2 years of experience in ERP consulting, specializing in Microsoft Dynamics 365 Business Central. 
+          </p>
+          <p>
+            Alongside my consulting career, I have developed a strong passion for offensive security and have earned industry certifications including eJPT and CompTIA Security+. I am currently pursuing the CPTS certification to further strengthen my technical skills in penetration testing and security assessments.
+          </p>
+        </div>
+
+        <div class="skills-col">
+          <h3>Offensive</h3>
+          <div class="tags">
+            <span class="tag">Web App Pentesting</span>
+            <span class="tag">Network Pentesting</span>
+            <span class="tag">Social Engineering</span>
+          </div>
+          <!-- <h3>Defensive</h3>
+          <div class="tags">
+            <span class="tag">Threat Hunting</span>
+            <span class="tag">SIEM / SOAR</span>
+            <span class="tag">Incident Response</span>
+          </div> -->
+          <h3>Tools &amp; Languages</h3>
+          <div class="tags">
+            <span class="tag">Burp Suite</span>
+            <span class="tag">Metasploit</span>
+            <span class="tag">Nmap</span>
+            <span class="tag">Python</span>
+            <span class="tag">Bash</span>
+            <span class="tag">Wireshark</span>
+          </div>
+          <h3>Certifications</h3>
+          <div class="tags">
+            <span class="tag">eJPT</span>
+            <span class="tag">Security+</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── PROJECTS ── -->
+    <section id="projects">
+      <p class="section-label">// projects</p>
+      <div class="projects-grid">
+
+        <div class="project-card">
+          <div class="project-header">
+            <span class="project-name">Bangkit 2021 Capstone Project</span>
+            <span class="project-badge badge-tool">App</span>
+          </div>
+          <p class="project-desc">
+            An Android app my team and I made for Google Bangkit 2021 Capstone Project. I handled the cloud and infrastructure.
+          </p>
+          <div class="project-footer">
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">GCP</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/Kurohayabusa-r/capstone" class="project-link">→ GitHub</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <span class="project-name">CTF Write-up: Platform Name</span>
+            <span class="project-badge badge-ctf">CTF</span>
+          </div>
+          <p class="project-desc">
+            Describe the challenge category and your approach. What techniques did it demonstrate?
+            Recruiters love seeing CTF context — platform, ranking, and methodology.
+          </p>
+          <div class="project-footer">
+            <div class="tags">
+              <span class="tag">Binary Exploitation</span>
+              <span class="tag">Pwn</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link">→ Write-up</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="project-card">
+          <div class="project-header">
+            <span class="project-name">CVE-YYYY-XXXXX — Vulnerability Title</span>
+            <span class="project-badge badge-cve">CVE</span>
+          </div>
+          <p class="project-desc">
+            Describe the vulnerability, affected software, and scope of impact.
+            Include the CVE ID if published. Responsible disclosure timeline is a plus.
+          </p>
+          <div class="project-footer">
+            <div class="tags">
+              <span class="tag">XSS</span>
+              <span class="tag">Web</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link">→ Advisory</a>
+            </div>
+          </div>
+        </div> -->
+
+      </div>
+      <div style="display:flex; gap:20px; margin-top:28px;">
+        <a href="projects.html" style="font-family:var(--mono);font-size:13px;color:var(--accent);text-decoration:none;">View all projects →</a>
+        <a href="ctf.html" style="font-family:var(--mono);font-size:13px;color:var(--text-muted);text-decoration:none;">CTF write-ups →</a>
+      </div>
+    </section>
+
+    <!-- ── EXPERIENCE ── -->
+    <section id="experience">
+      <p class="section-label">// experience</p>
+
+      <div class="exp-item">
+        <div class="exp-date">2023 — 2025</div>
+        <div>
+          <p class="exp-role">ERP Technical Consultant</p>
+          <p class="exp-company">Altitude Solutions</p>
+          <ul class="exp-desc">
+            <li>Tailored the ERP platform to meet specific client needs, enhancing their workflows and business processes.</li>
+            <li>Collaborated with clients to assess their needs, determining when custom solutions were necessary versus utilizing out-of-the-box functionality.</li>
+            <li>Provided ongoing technical support, ensuring smooth system operation and resolving user issues in a timely manner.</li>
+            <li>Delivered training sessions to clients, empowering users with the knowledge and skills to fully leverage Business Central’s capabilities.</li>
+            <li>Investigated and integrated custom-built modules, extending Business Central’s functionality to meet unique client requirements.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-date">2022 — 2022</div>
+        <div>
+          <p class="exp-role">Freelance Software QA</p>
+          <p class="exp-company">Upwork</p>
+          <ul class="exp-desc">
+            <li>Manually tested the company's web application</li>
+            <li>Wrote and refactored documentation of features on Confluence</li>
+            <li>Wrote test tickets and bug tickets on Jira</li>
+            <li>Learned about AQA and how to write automated tests using Selenium</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-date">2021 — 2022</div>
+        <div>
+          <p class="exp-role">Software Engineer Intern</p>
+          <p class="exp-company">PT. Bank Negara Indonesia</p>
+          <ul class="exp-desc">
+            <li>Created a desktop Python app that automates the memo creation process in the Payments team's work.</li>
+            <li>Created a web based meeting room reservation app to replace the previous BNI meeting room reservation method.</li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    <p class="footer-text">// no frameworks · no trackers · built with HTML &amp; CSS</p>
+  </footer>
+
+</body>
+</html>

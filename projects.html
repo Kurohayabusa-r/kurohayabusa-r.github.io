@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — Your Name</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ── Tokens ── */
+    :root {
+      --bg:           #FAFBFC;
+      --bg-card:      #F1F5F9;
+      --text:         #0F172A;
+      --text-muted:   #64748B;
+      --accent:       #2563EB;
+      --accent-light: #DBEAFE;
+      --border:       #E2E8F0;
+      --mono:         'JetBrains Mono', monospace;
+      --sans:         'Inter', sans-serif;
+      --max-w:        760px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 251, 252, 0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--accent); }
+
+    /* ── Layout ── */
+    main {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Page hero ── */
+    .page-hero {
+      padding: 72px 0 56px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+    }
+    .page-title {
+      font-size: clamp(28px, 5vw, 38px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .page-desc {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 480px;
+      line-height: 1.75;
+    }
+
+    /* ── Filter bar ── */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 32px 0 28px;
+    }
+    .filter-btn {
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 6px 14px;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* ── Cards ── */
+    .cards-grid { display: grid; gap: 14px; padding-bottom: 80px; }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 26px 28px;
+      transition: box-shadow 0.15s;
+    }
+    .card:hover { box-shadow: 0 4px 24px rgba(37, 99, 235, 0.08); }
+    .card.hidden { display: none; }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 10px;
+    }
+    .card-name { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
+    .badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .badge-tool     { background: #DCFCE7; color: #166534; }
+    .badge-cve      { background: #FEE2E2; color: #991B1B; }
+    .badge-research { background: #FEF3C7; color: #92400E; }
+    .badge-ctf      { background: #EDE9FE; color: #5B21B6; }
+
+    .card-desc {
+      color: var(--text-muted);
+      font-size: 14.5px;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      padding: 3px 9px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+    }
+    .card-links { display: flex; gap: 16px; }
+    .card-link {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .card-link:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    footer {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 28px 24px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .footer-text {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 600px) { .nav-links { display: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-logo" href="index.html">// kurohayabusa-r</a>
+      <ul class="nav-links">
+        <li><a href="index.html#about">about</a></li>
+        <li><a href="projects.html" class="active">projects</a></li>
+        <li><a href="ctf.html">ctf</a></li>
+        <li><a href="index.html#experience">experience</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+
+    <div class="page-hero">
+      <p class="section-label">// projects</p>
+      <h1 class="page-title">Projects</h1>
+      <p class="page-desc">
+        Apps & tools I've built, vulnerabilities I've disclosed, and research I've published.
+      </p>
+    </div>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="tool">Tool</button>
+      <button class="filter-btn" data-filter="cve">CVE</button>
+      <button class="filter-btn" data-filter="research">Research</button>
+    </div>
+
+    <div class="cards-grid" id="cards">
+
+      <!-- ── TOOLS ── -->
+
+      <div class="card" data-type="tool">
+        <div class="card-header">
+          <span class="card-name">Bangkit 2021 Capstone Project</span>
+          <span class="badge badge-tool">App</span>
+        </div>
+        <p class="card-desc">
+          An Android app my team and I made for Google Bangkit 2021 Capstone Project. I handled the cloud and infrastructure.
+        </p>
+        <div class="card-footer">
+          <div class="tags">
+            <span class="tag">Python</span>
+            <span class="tag">GCP</span>
+          </div>
+          <div class="card-links">
+            <a href="https://github.com/Kurohayabusa-r/capstone" class="card-link">→ GitHub</a>
+            <!-- <a href="#" class="card-link">→ Write-up</a> -->
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="card" data-type="tool">
+        <div class="card-header">
+          <span class="card-name">Project Name Two</span>
+          <span class="badge badge-tool">Tool</span>
+        </div>
+        <p class="card-desc">
+          Another tool description. What does it automate or simplify? Who would use it and when?
+          Mention stars, downloads, or real-world usage if applicable.
+        </p>
+        <div class="card-footer">
+          <div class="tags">
+            <span class="tag">Go</span>
+            <span class="tag">Network</span>
+          </div>
+          <div class="card-links">
+            <a href="#" class="card-link">→ GitHub</a>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- ── CVEs ── -->
+
+      <!-- <div class="card" data-type="cve">
+        <div class="card-header">
+          <span class="card-name">CVE-YYYY-XXXXX — Vulnerability Title</span>
+          <span class="badge badge-cve">CVE</span>
+        </div>
+        <p class="card-desc">
+          Describe the vulnerability, affected software/version, and the scope of impact.
+          Include the CVE ID and CVSS score if published. Briefly note how you discovered it
+          and the responsible disclosure timeline.
+        </p>
+        <div class="card-footer">
+          <div class="tags">
+            <span class="tag">CVSS 8.1</span>
+            <span class="tag">SQLi</span>
+            <span class="tag">Web App</span>
+          </div>
+          <div class="card-links">
+            <a href="#" class="card-link">→ Advisory</a>
+            <a href="#" class="card-link">→ PoC</a>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- <div class="card" data-type="cve">
+        <div class="card-header">
+          <span class="card-name">CVE-YYYY-XXXXX — Another Finding</span>
+          <span class="badge badge-cve">CVE</span>
+        </div>
+        <p class="card-desc">
+          A second CVE or bug bounty disclosure. Even if unpublished, describe the class of
+          vulnerability and the vendor. Bug bounty acknowledgements count here too.
+        </p>
+        <div class="card-footer">
+          <div class="tags">
+            <span class="tag">CVSS 6.5</span>
+            <span class="tag">SSRF</span>
+          </div>
+          <div class="card-links">
+            <a href="#" class="card-link">→ Advisory</a>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- ── RESEARCH ── -->
+
+      <!-- <div class="card" data-type="research">
+        <div class="card-header">
+          <span class="card-name">Research or Blog Post Title</span>
+          <span class="badge badge-research">Research</span>
+        </div>
+        <p class="card-desc">
+          Describe the topic you researched and the key finding or conclusion. Is this a blog post,
+          a conference talk, or an internal report that became public? Link to the full piece.
+        </p>
+        <div class="card-footer">
+          <div class="tags">
+            <span class="tag">Active Directory</span>
+            <span class="tag">Kerberoasting</span>
+          </div>
+          <div class="card-links">
+            <a href="#" class="card-link">→ Read</a>
+          </div>
+        </div>
+      </div> -->
+
+    </div>
+  </main>
+
+  <footer>
+    <p class="footer-text">// no frameworks · no trackers · built with HTML &amp; CSS</p>
+  </footer>
+
+  <script>
+    const buttons = document.querySelectorAll('.filter-btn');
+    const cards   = document.querySelectorAll('.card');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter;
+
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        cards.forEach(card => {
+          const match = filter === 'all' || card.dataset.type === filter;
+          card.classList.toggle('hidden', !match);
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
