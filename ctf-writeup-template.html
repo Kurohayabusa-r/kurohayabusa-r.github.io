@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CHANGE: Update this title per write-up -->
+  <title>Writing Template — Glenn Yohanes</title>
+
+
+
+  <style>
+    /* ── Tokens ── */
+    :root {
+      --bg:           #FAFBFC;
+      --bg-card:      #F1F5F9;
+      --bg-code:      #1E293B;
+      --text:         #0F172A;
+      --text-muted:   #64748B;
+      --text-code:    #E2E8F0;
+      --accent:       #2563EB;
+      --accent-light: #DBEAFE;
+      --border:       #E2E8F0;
+      --mono:         'JetBrains Mono', monospace;
+      --sans:         'Inter', sans-serif;
+      --max-w:        760px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 251, 252, 0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--accent); }
+
+    /* ── Layout ── */
+    main {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px 96px;
+    }
+
+    /* ── Back link ── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-top: 36px;
+      margin-bottom: 40px;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--accent); }
+    .back-link::before { content: '←'; }
+
+    /* ── Challenge hero ── */
+    .challenge-hero {
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 52px;
+    }
+    .challenge-eyebrow {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .challenge-title {
+      font-size: clamp(24px, 4vw, 34px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    /* Difficulty */
+    .badge-easy   { background: #DCFCE7; color: #166534; }
+    .badge-medium { background: #FEF3C7; color: #92400E; }
+    .badge-hard   { background: #FEE2E2; color: #991B1B; }
+    /* Category */
+    .badge-web      { background: #DBEAFE; color: #1E40AF; }
+    .badge-pwn      { background: #FEE2E2; color: #991B1B; }
+    .badge-crypto   { background: #EDE9FE; color: #5B21B6; }
+    .badge-forensics { background: #D1FAE5; color: #065F46; }
+    .badge-rev      { background: #FEF3C7; color: #92400E; }
+    .badge-misc     { background: #F1F5F9; color: #475569; }
+    /* Meta pill */
+    .meta-pill {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      padding: 3px 0;
+    }
+    .meta-divider {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--border);
+    }
+
+    /* ── Section label ── */
+    .section-label {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      margin-bottom: 14px;
+    }
+
+    /* ── Write-up body ── */
+    .writeup-section {
+      margin-bottom: 52px;
+    }
+    .writeup-section h2 {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+    }
+    .writeup-section p {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.8;
+      margin-bottom: 14px;
+    }
+    .writeup-section p:last-child { margin-bottom: 0; }
+
+    /* Inline code */
+    code {
+      font-family: var(--mono);
+      font-size: 13px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 3px;
+      color: var(--text);
+    }
+
+    /* Code block */
+    .code-block {
+      background: var(--bg-code);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 20px 0;
+      overflow-x: auto;
+    }
+    .code-block-header {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: #64748B;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #334155;
+    }
+    .code-block pre {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text-code);
+      line-height: 1.7;
+      white-space: pre;
+    }
+    /* Syntax hint colors (apply manually with spans) */
+    .c-comment { color: #64748B; }
+    .c-string   { color: #86EFAC; }
+    .c-keyword  { color: #93C5FD; }
+    .c-number   { color: #FCA5A5; }
+    .c-output   { color: #FCD34D; }
+
+    /* Image */
+    .writeup-img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin: 20px 0;
+    }
+    .writeup-img-caption {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: -10px;
+      margin-bottom: 20px;
+    }
+
+    /* Callout / note */
+    .callout {
+      background: var(--accent-light);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      padding: 14px 18px;
+      margin: 20px 0;
+      font-size: 14.5px;
+      color: #1E40AF;
+      line-height: 1.7;
+    }
+    .callout strong { font-weight: 600; }
+
+    /* ── Flag block ── */
+    .flag-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid #16A34A;
+      border-radius: 0 8px 8px 0;
+      padding: 18px 22px;
+      margin: 20px 0;
+    }
+    .flag-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: #16A34A;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+    .flag-value {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--text);
+      word-break: break-all;
+    }
+
+    /* ── Takeaways list ── */
+    .takeaways-list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+    .takeaways-list li {
+      display: flex;
+      gap: 12px;
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .takeaways-list li::before {
+      content: '→';
+      font-family: var(--mono);
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 28px 24px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .footer-text {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 600px) { .nav-links { display: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; scroll-behavior: auto !important; }
+    }
+  </style>
+  <link rel="preload" href="assets/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="assets/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="portfolio.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<script src="portfolio.js" defer></script></head>
+<body class="notes-page"><a class="skip-link" href="#main-content">Skip to content</a>
+
+  <nav aria-label="Main navigation"><div class="nav-inner"><a class="nav-logo" href="index.html" aria-label="Glenn Yohanes, home">glenny<span class="logo-dot">.</span></a><ul class="nav-links"><li><a href="projects.html">Work</a></li><li><a href="index.html#about">About</a></li><li><a href="ctf.html" class="active" aria-current="location">Security notes</a></li><li><a href="mailto:glennyohanes17@gmail.com" class="nav-contact">Get in touch <span class="link-arrow" aria-hidden="true">↗</span></a></li></ul></div></nav>
+
+  <main id="main-content"><aside class="template-notice">WRITING TEMPLATE — The challenge, dates, scores, and examples below are placeholders, not a published write-up.</aside>
+
+    <a href="ctf.html" class="back-link">CTF Write-ups</a>
+
+    <!-- ── CHALLENGE HEADER ─────────────────────────────────── -->
+    <!-- CHANGE: Update all of the below per write-up           -->
+    <div class="challenge-hero">
+      <p class="challenge-eyebrow">PlatformName CTF · 2024</p>
+      <h1 class="challenge-title">Challenge Name — SQL Injection</h1>
+      <div class="meta-row">
+        <span class="badge badge-medium">Medium</span>
+        <span class="badge badge-web">Web</span>
+        <span class="meta-divider">·</span>
+        <span class="meta-pill">500 pts</span>
+        <span class="meta-divider">·</span>
+        <span class="meta-pill">Solved solo</span>
+        <span class="meta-divider">·</span>
+        <span class="meta-pill">June 2024</span>
+      </div>
+    </div>
+
+    <!-- ── OVERVIEW ─────────────────────────────────────────── -->
+    <div class="writeup-section">
+      <p class="section-label">// overview</p>
+      <h2>Overview</h2>
+      <p>
+        Describe the challenge in 2–3 sentences. What was the scenario? What was the goal —
+        retrieve a flag, get a shell, exfiltrate data? Keep this spoiler-light so the reader
+        gets context without the answer.
+      </p>
+      <p>
+        You can mention the source files or service provided if relevant — e.g., "We were given
+        a login page and access to the backend source code."
+      </p>
+    </div>
+
+    <!-- ── RECONNAISSANCE ────────────────────────────────────── -->
+    <div class="writeup-section">
+      <p class="section-label">// reconnaissance</p>
+      <h2>Reconnaissance</h2>
+      <p>
+        What did you find when you first looked at the target? Describe your initial enumeration.
+        What tools did you run? What stood out?
+      </p>
+
+      <div class="code-block">
+        <div class="code-block-header">bash</div>
+        <pre><span class="c-comment"># Initial scan / reconnaissance commands</span>
+nmap -sC -sV -oN scan.txt 10.10.10.x
+
+<span class="c-output">PORT   STATE SERVICE VERSION
+80/tcp open  http    Apache httpd 2.4.41</span></pre>
+      </div>
+
+      <p>
+        Explain what the output revealed and why it was significant. Walk the reader through
+        your thought process, not just the commands.
+      </p>
+
+      <!-- Uncomment to add a screenshot -->
+      <!--
+      <img src="images/recon-screenshot.png" alt="Login page" class="writeup-img">
+      <p class="writeup-img-caption">The login page — notice the error message leaks the DB type.</p>
+      -->
+    </div>
+
+    <!-- ── EXPLOITATION ──────────────────────────────────────── -->
+    <div class="writeup-section">
+      <p class="section-label">// exploitation</p>
+      <h2>Exploitation</h2>
+      <p>
+        This is the heart of the write-up. Walk through your approach step by step. What did
+        you try first? What failed? What ended up working?
+      </p>
+
+      <div class="callout">
+        <strong>Key insight:</strong> Use a callout like this to highlight the critical observation
+        that unlocked the challenge — the "aha" moment.
+      </div>
+
+      <p>
+        Explain your payload or exploit with enough detail that someone could reproduce it.
+        Show the actual input and what it produced.
+      </p>
+
+      <div class="code-block">
+        <div class="code-block-header">sql — payload</div>
+        <pre><span class="c-comment">-- Classic UNION-based injection to extract the users table</span>
+<span class="c-keyword">SELECT</span> * <span class="c-keyword">FROM</span> products <span class="c-keyword">WHERE</span> id=<span class="c-number">1</span> <span class="c-keyword">UNION SELECT</span> <span class="c-number">1</span>,username,password,<span class="c-number">4</span> <span class="c-keyword">FROM</span> users--
+
+<span class="c-output">admin | 5f4dcc3b5aa765d61d8327deb882cf99</span></pre>
+      </div>
+
+      <p>
+        Describe what the output means and what you did next. If there were multiple steps
+        to full exploitation, add more subsections or code blocks as needed.
+      </p>
+
+      <div class="code-block">
+        <div class="code-block-header">python — crack the hash</div>
+        <pre>import hashlib
+
+<span class="c-comment"># md5("password") → 5f4dcc3b5aa765d61d8327deb882cf99</span>
+target = <span class="c-string">"5f4dcc3b5aa765d61d8327deb882cf99"</span>
+wordlist = open(<span class="c-string">"rockyou.txt"</span>).read().splitlines()
+
+<span class="c-keyword">for</span> word <span class="c-keyword">in</span> wordlist:
+    <span class="c-keyword">if</span> hashlib.md5(word.encode()).hexdigest() == target:
+        print(<span class="c-string">f"Cracked: </span>{word}<span class="c-string">"</span>)
+        <span class="c-keyword">break</span>
+
+<span class="c-output">Cracked: password</span></pre>
+      </div>
+    </div>
+
+    <!-- ── FLAG ─────────────────────────────────────────────── -->
+    <div class="writeup-section">
+      <p class="section-label">// flag</p>
+      <h2>Flag</h2>
+      <p>Brief sentence on how you retrieved the flag after exploitation.</p>
+      <!-- CHANGE: Replace with the actual flag -->
+      <div class="flag-block">
+        <p class="flag-label">// flag</p>
+        <p class="flag-value">CTF{r3pl4c3_w1th_th3_r34l_fl4g}</p>
+      </div>
+    </div>
+
+    <!-- ── TAKEAWAYS ─────────────────────────────────────────── -->
+    <div class="writeup-section">
+      <p class="section-label">// takeaways</p>
+      <h2>Takeaways</h2>
+      <ul class="takeaways-list">
+        <li>What was the core lesson this challenge taught you or reinforced?</li>
+        <li>A technique, tool, or concept you'll apply to future engagements.</li>
+        <li>Anything that surprised you, or a mistake you made that cost time.</li>
+      </ul>
+    </div>
+
+  </main>
+
+  <footer class="site-footer"><a href="index.html" class="footer-signature">Glenn Yohanes<span>.</span></a><p>Software, systems &amp; security.</p><div><a href="https://github.com/kurohayabusa-r" target="_blank" rel="noopener">GitHub <span class="link-arrow" aria-hidden="true">↗</span></a><a href="https://linkedin.com/in/glenn-yohanes-b63a931b7/" target="_blank" rel="noopener">LinkedIn <span class="link-arrow" aria-hidden="true">↗</span></a><a href="mailto:glennyohanes17@gmail.com">Email <span class="link-arrow" aria-hidden="true">↗</span></a></div></footer>
+
+</body>
+</html>
